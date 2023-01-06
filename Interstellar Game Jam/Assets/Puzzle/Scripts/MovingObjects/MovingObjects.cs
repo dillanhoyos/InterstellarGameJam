@@ -9,6 +9,8 @@ public class MovingObjects : MonoBehaviour
    
     [SerializeField] 
     private GameObject[] PlaceHolders;
+    [SerializeField]
+    private GameObject[] StartPlaceHolders;
 
     public float speed; 
 
@@ -22,6 +24,10 @@ public class MovingObjects : MonoBehaviour
     {
         StartCoroutine(MoveAtoB(Moving, PlaceHolders, speed));
 
+    }
+    public void Resetposition()
+    {
+        StartCoroutine(MoveAtoB(Moving, StartPlaceHolders, speed));
     }
 
    IEnumerator MoveAtoB(GameObject[] gameObjectA, GameObject[] gameObjectB,float speedTranslation)
@@ -38,4 +44,5 @@ public class MovingObjects : MonoBehaviour
         
 
    }
+   
 }

@@ -9,6 +9,7 @@ public class Triggerforlever : MonoBehaviour
     public Material triggered; 
     public Material notTriggered; 
     public UnityEvent OpenLadder;
+    public UnityEvent CloseLadder;
     private Renderer thisRend;
 
     void Start()
@@ -39,5 +40,14 @@ public class Triggerforlever : MonoBehaviour
         
 
     }
-
+    private void OnTriggerExit(Collider other)
+    {
+      if(other.CompareTag("Puzzle Switch"))
+        {
+            
+            thisRend.material = notTriggered;
+            CloseLadder.Invoke();
+        }   
+      
+    }
 }
