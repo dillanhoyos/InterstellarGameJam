@@ -25,13 +25,13 @@ public class TriggerForlever : MonoBehaviour
 
         if(other.CompareTag("PuzzleSwitch"))
         {
-            Debug.Log("WTF");
+           
             thisRend.material = triggered;
             OpenLadder.Invoke();
         }   
         else
         {
-              Debug.Log("1WTF");
+            
             
             thisRend.material = notTriggered;
 

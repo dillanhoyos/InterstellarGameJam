@@ -1,0 +1,34 @@
+{
+    "name": "Push",
+    "maps": [
+        {
+            "name": "PC",
+            "id": "e171322f-5c3a-459f-ac2f-ba53ccfd5e66",
+            "actions": [
+                {
+                    "name": "Push",
+                    "type": "Button",
+                    "id": "06ac5b1f-4eec-41da-8e09-e9b9ff8c3e2b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "135fe0f8-2932-4567-ba5b-526f45576c5e",
+                    "path": "<Keyboard>/#(E)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Push",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

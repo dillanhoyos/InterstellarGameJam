@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - PuzzleSwitch
+  - PuzzleSwitch2
   layers:
   - Default
   - TransparentFX

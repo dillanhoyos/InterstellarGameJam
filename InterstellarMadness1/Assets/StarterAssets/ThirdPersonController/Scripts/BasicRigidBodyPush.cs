@@ -1,25 +1,52 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class BasicRigidBodyPush : MonoBehaviour
 {
 	public Animator push;
 	public LayerMask pushLayers;
+
+	public MovableBox Box;
 	public bool canPush;
+	private PlayerInput input;
 	[Range(0.5f, 5f)] public float strength = 1.1f;
 
-	private void start()
+	private void Awake()
 	{
-		
+		//Get Player input
+		input = GetComponent<PlayerInput>();
+		Box = Box.GetComponent<MovableBox>();
 
 	}
-	private void update()
+	private void Update()
 	{
 			if(push == null)
 			{
 				push = this.GetComponentInParent<Animator>();
 		
 			}
+
+		if(Box.canPressE){
+			if(input.actions["push"].inProgress){
+
+				push.SetBool("Pushing", true);
+				push.SetBool("IdleWalk", false);
+				Debug.Log("E");
+			}
+		}
+
+		if(!Box.canPressE)
+		{
+			push.SetBool("Pushing", false);
+				push.SetBool("IdleWalk", true);
+		}
+
+			
 	}
+			
+
+	
 	private void OnControllerColliderHit(ControllerColliderHit hit)
 	{
 		if (canPush)PushRigidBodies(hit);
@@ -30,7 +57,8 @@ public class BasicRigidBodyPush : MonoBehaviour
 	private void PushRigidBodies(ControllerColliderHit hit)
 	{
 		// https://docs.unity3d.com/ScriptReference/CharacterController.OnControllerColliderHit.html
-
+		var Starterparent = hit.transform.parent;
+		Box = hit.collider.GetComponent<MovableBox>();
 		// make sure we hit a non kinematic rigidbody
 		Rigidbody body = hit.collider.attachedRigidbody;
 		if (body == null || body.isKinematic) 
@@ -57,24 +85,36 @@ public class BasicRigidBodyPush : MonoBehaviour
 		Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.0f, hit.moveDirection.z);
 
 		// Apply the push and take strength into account
-		body.AddForce(pushDir * strength, ForceMode.Impulse);
-		
-		
+
+		if(input.actions["push"].inProgress){
+
+			body.AddForce(pushDir * strength, ForceMode.Impulse);
+	
+		}
+	
 		
 	}
-	private void OnCollisionEnter(Collision other)
-	{
-		if (other.gameObject.layer == LayerMask.NameToLayer("Pushable"))
-			{
-				
-		
-			push.SetBool("Pushing", true);
-			push.SetBool("IdleWalk", false);
-			}
 
 	
-	}	
+	private void OnCollisionEnter(Collision other)
+	{
+		
+		if (other.gameObject.layer == LayerMask.NameToLayer("Pushable"))
+		{
+		
+			if(input.actions["push"].inProgress){
 
+		
+
+				push.SetBool("Pushing", true);
+				push.SetBool("IdleWalk", false);
+				Debug.Log("E");
+				
+		}
+		}
+	
+
+	}
 	
 	
 	private void OnCollisionExit(Collision other)
@@ -82,14 +122,16 @@ public class BasicRigidBodyPush : MonoBehaviour
 
 		if (other.gameObject.layer == LayerMask.NameToLayer("Pushable"))
 			{
-				Debug.Log("HElp");
-		
-			push.SetBool("Pushing", false);
-			push.SetBool("IdleWalk", true);
-			}
 			
+				if(!input.actions["push"].inProgress){
+				
 
-		Debug.Log("OUtside");
+					push.SetBool("Pushing", false);
+					push.SetBool("IdleWalk", true);
+				}
+
+			}
+		
 	}
 	
 }
